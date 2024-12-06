@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>113306016_Lab3_Number Guessing Game</title>
+    <style>
+        #resultDiv img {
+            width: 97vw;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>113306016_Lab3_Number Guessing Game</h1>
+    <div id="resultDiv"></div>
+    
+    <script>
+        function getRandomNumber() {
+            let num;
+            do {
+                num = Math.floor(Math.random() * 100) + 1;
+            } while (num === 1 || num === 100);
+            return num;
+        }
+
+        function isValidGuess(guess) {
+            return !isNaN(guess) && guess >= 2 && guess <= 99;
+        }
+
+        function displayImage(imageName) {
+            const resultDiv = document.getElementById("resultDiv");
+            resultDiv.innerHTML = ''; // Clear the existing content
+            const img = document.createElement("img");
+            img.src = imageName;
+            img.alt = imageName;
+            resultDiv.appendChild(img);
+        }
+
+        let targetNumber = getRandomNumber();
+        let attempts = 7;
+        let guessedCorrectly = false;
+
+        while (attempts > 0 && !guessedCorrectly) {
+            let guess = prompt(` Guess the number between 1 and 100. You have ${attempts} attempts left:`);
+
+            if (guess === null || guess.trim() === "") {
+                alert("Please enter a valid number.");
+                continue;
+            }
+
+            guess = parseInt(guess, 10);
+
+            if (!isValidGuess(guess)) {
+                alert("The number must be between 1 and 100.");
+                continue;
+            }
+
+            attempts--;
+
+            if (guess === targetNumber) {
+                alert("Congratulations! You've guessed the correct number.");
+                displayImage("correct.jpg");
+                guessedCorrectly = true;
+            } else if (attempts === 0) {
+                alert(`Sorry, you've run out of attempts. The correct number was ${targetNumber}.`);
+                displayImage("wrong.jpg");
+            } else if (guess < targetNumber) {
+                alert("Too low! Try again.");
+            } else if (guess > targetNumber) {
+                alert("Too high! Try again.");
+            }
+        }
+    </script>
+</body>
+</html>
